@@ -4,6 +4,10 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// config.ts or similar
+console.log('UNSPLASH_ACCESS_KEY:', process.env.UNSPLASH_ACCESS_KEY);
+
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );

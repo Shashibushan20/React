@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import CustomerList from './components/CustomerList';
+import CustomerDetails from './components/CustomerDetails';
+import PhotoGrid from './components/PhotoGrid';
+import { Customer } from './types/types';
+import { getCustomers } from './services/api';
 
-function App() {
+const App: React.FC = () => {
+  const [customers, setCustomers] = useState<Customer[]>([]);
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
+
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      const fetchedCustomers = await getCustomers();
+      setCustomers(fetchedCustomers);
+    };
+
+    fetchCustomers();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h4>This here is the heading</h4>
+      <div className="content">
+        <CustomerList
+          customers={customers}
+          selectedCustomerId={selectedCustomer?.id || null}
+          onSelectCustomer={setSelectedCustomer}
+        />
+        <div className="right-panel">
+          <CustomerDetails customer={selectedCustomer} />
+          <PhotoGrid />
+        </div>
+      </div>
     </div>
   );
-}
+};
 
 export default App;
